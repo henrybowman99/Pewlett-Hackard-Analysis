@@ -16,12 +16,12 @@ SELECT * FROM retirement_titles;
 
 --Filter previous table to include only most recent emp_no and employees who are still with the company
 SELECT DISTINCT ON (emp_no)
-					emp_no,
-					first_name,
-					last_name,
-					title,
-					from_date,
-					to_date
+		    emp_no,
+		first_name,
+		last_name,
+		    title,
+		from_date,
+	          to_date,
 INTO unique_titles
 FROM retirement_titles
 WHERE to_date = '9999-01-01'
@@ -83,6 +83,7 @@ ON e.emp_no = ti.emp_no
 WHERE (e.birth_date BETWEEN '1951-01-01' AND '1954-12-31')
 ORDER BY e.emp_no, to_date DESC;
 
+--Calculate expected retirement percentage by finding number of retirement candidates from past year that retired
 SELECT (SELECT CAST(COUNT(emp_no) AS DECIMAL(10,2)) FROM retirement_candidates_previous_year WHERE to_date < '9999-01-01')/
 (SELECT CAST(COUNT(emp_no) AS DECIMAL(10,2)) FROM retirement_candidates_previous_year)*100 AS retirement_percentage
 INTO expected_retirement_percentage;
